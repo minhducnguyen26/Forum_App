@@ -1,30 +1,71 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <div class="left_side">
+      <div class="app_title">forum.</div>
+      <NavigationBar></NavigationBar>
+    </div>
+
+    <div class="middle">
+      <Home></Home>
+    </div>
+
+    <div class="right_side">
+      <UserAccount></UserAccount>
+      <ActivitiesBox></ActivitiesBox>
+    </div>
 </template>
 
+<script>
+// Left Side
+import NavigationBar from "./components/NavigationBar.vue"
+
+// Middle
+import Home from ".pages/Home.vue"
+
+// Right Side
+import UserAccount   from "./components/UserAccount.vue"
+import ActivitiesBox from "./components/ActivitiesBox.vue"
+
+export default {
+  components: {
+    NavigationBar,
+    Home,
+    UserAccount,
+    ActivitiesBox
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+  :root {
+    --dark-purple   : #171a3b;
+    --light-purple  : #1c2246;
+    --lighter-purple: #656c9e;
+  }
+  #app {
+    display: grid;
+    grid-template-columns: 2fr 8fr 3fr;
+  }
+  .left_side {
+    height: 100vh;
+    background-color: var(--dark-purple);
+    color: white;
+  }
+  .app_title {
+    font-size: 40px;
+    margin: 15px 0 30px 40px;
+    position: fixed;
+    cursor: pointer;
+  }
+  .middle {
+    background-color: blue;
+  }
+  .right_side {
+    background-color: var(--dark-purple);
+  }
 </style>
