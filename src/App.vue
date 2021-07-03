@@ -19,7 +19,7 @@
 import NavigationBar from "./components/NavigationBar.vue"
 
 // Middle
-import Home from ".pages/Home.vue"
+import Home from "./pages/Home.vue"
 
 // Right Side
 import UserAccount   from "./components/UserAccount.vue"
@@ -50,6 +50,7 @@ export default {
   #app {
     display: grid;
     grid-template-columns: 2fr 8fr 3fr;
+    background-color: var(--dark-purple);
   }
   .left_side {
     height: 100vh;
@@ -63,7 +64,8 @@ export default {
     cursor: pointer;
   }
   .middle {
-    background-color: blue;
+    background-color: var(--dark-purple);
+    padding: 0px 30px 10px 30px;
   }
   .right_side {
     background-color: var(--dark-purple);

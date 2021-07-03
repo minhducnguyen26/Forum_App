@@ -96,4 +96,10 @@ export default {
         align-items: center;
         font-size: 17px;
     }
+    @media only screen and (min-width: 1600px) {
+    .navigation_bar {
+        width: 15.3%;
+        top: 9.2%;
+    }
+}
 </style>

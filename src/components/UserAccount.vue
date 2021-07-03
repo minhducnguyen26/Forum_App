@@ -112,4 +112,10 @@ export default {
         margin-top: 10px;
         color: var(--lighter-purple);
     }
+
+    @media only screen and (min-width: 1600px) {
+        .user_infos {
+            padding-right: 17px;
+        }
+    }
 </style>>
