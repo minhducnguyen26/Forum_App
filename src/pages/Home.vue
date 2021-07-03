@@ -62,7 +62,7 @@
 
         <div class="action_buttons">
           <MyButton @click="go_back_from_view_posts">Back</MyButton>
-          <MyButton>Create Post</MyButton>
+          <MyButton>Create Post</MyButton> <!--Create Post function-->
         </div>
       </div>
 
