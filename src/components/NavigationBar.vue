@@ -98,7 +98,7 @@ export default {
     }
     @media only screen and (min-width: 1600px) {
     .navigation_bar {
-        width: 15.3%;
+        width: 15.4%;
         top: 9.2%;
     }
 }

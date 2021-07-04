@@ -10,7 +10,7 @@
             </div>
         </div>
                             
-        <div class="delete_button">
+        <div class="delete_button" @click="delete_button_clicked_from_components">
             <i class="las la-trash-alt"></i>    
         </div>
     </div>
@@ -18,6 +18,11 @@
 
 <script>
 export default {
+    methods: {
+        delete_button_clicked_from_components() {
+            this.$emit("delete_button_clicked")
+        }
+    },
     computed: {
         random_number() {
             return Math.floor(Math.random() * 100);

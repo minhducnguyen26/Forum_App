@@ -1,25 +1,27 @@
 <template>
   <div class="home">
-    <div class="filter_bar" v-if="!current_thread">
+    <div class="filter_bar" v-show="current_thread === '' ">
       <p>Filter threads:</p>
-      <select v-model="selected_category">
+      <select v-model="selected_category" @click="toggle_no_thread_found_display">
         <option v-for="category in categories" :key="category">
           {{ category }}
         </option>
       </select>
     </div>
 
-    <div class="main_content_for_threads" v-if="!current_thread">
-      <div class="thread_wrapper" v-for="thread in sorted_threads" :key="thread._id">
+    <div class="main_content_for_threads" v-show="current_thread === ''">
 
-        <RankingandDelete></RankingandDelete>
+      <div class="thread_wrapper slide_up_animation" 
+        v-for="thread in sorted_threads" :key="thread._id">
+
+        <RankingandDelete @delete_button_clicked="delete_one_thread(thread._id)"></RankingandDelete>
 
         <div class="thread_content">
           <div class="thread_name" @click="get_all_posts_of_one_thread(thread)">
             {{ thread.name }}
           </div>
           <div class="thread_description"> {{ thread.description }}</div>
-                          
+                            
           <div class="thread_content_tail">
             <div class="thread_author">@{{ thread.author }}</div>
             <div class="thread_category_wrapper">
@@ -30,23 +32,24 @@
         </div>
       </div>
 
-      <div class="no_thread_found" v-if="!sorted_threads.length">
+      <div class="no_thread_found slide_up_animation" 
+        v-if="!sorted_threads.length">
         <MessageBox title="No thread found for this category"
           :button_list="['Create Thread']"></MessageBox>
       </div>
       
     </div>
 
-    <div class="main_content_for_posts" v-if="current_thread">
+    <div class="main_content_for_posts" v-show="current_thread !== ''">
       <div class="post_found" v-if="!no_post_found">
         <div class="title">
           <p>All posts found for</p>
           <div class="selected_thread_name">{{ current_thread.name }}</div>
         </div>
-        <div class="posts_wrapper" 
+        <div class="posts_wrapper slide_up_animation" 
           v-for="post in all_posts_of_one_thread" :key="post._id">
           
-          <RankingandDelete></RankingandDelete>
+          <RankingandDelete @delete_button_clicked="delete_one_post(post)"></RankingandDelete>
 
           <div class="post_infos">
             <div class="post_author">
@@ -60,9 +63,9 @@
           </div>
         </div>
 
-        <div class="action_buttons">
+        <div class="action_buttons slide_up_animation">
           <MyButton @click="go_back_from_view_posts">Back</MyButton>
-          <MyButton>Create Post</MyButton> <!--Create Post function-->
+          <MyButton>Create Post</MyButton> 
         </div>
       </div>
 
@@ -133,6 +136,18 @@ export default {
         })
       })
     },
+    //* (DELETE)
+    delete_one_thread(thread_id) {
+      if(!this.current_thread) {
+        fetch(`${this.url}/thread/` + thread_id, {
+          method: "DELETE",
+          headers: {"Content-Type": "application/json"}
+        }).then((response) => {
+          this.get_all_threads_from_server();
+        })
+      }
+    }, 
+
       //? Deal with Posts 
     //* (GET ALL)
     get_all_posts_of_one_thread(thread){
@@ -148,6 +163,20 @@ export default {
         })
       })
     },
+    //* (DELETE)
+    delete_one_post(post) {
+      // specify the thread id where the post belongs
+      let thread_id = post.thread_id;
+
+      if(this.current_thread) {
+        fetch(`${this.url}/post/${thread_id}/${post._id}`, {
+          method: "DELETE",
+          headers: {"Content-Type": "application/json"}
+        }).then((response) => {
+          this.get_all_posts_of_one_thread(this.current_thread);
+        })
+      }
+    },
 
     //! Main Functions
     go_back_from_view_posts() {
@@ -161,6 +190,10 @@ export default {
       else if(button === "Create Post") {
         // call create post function
       }
+    },
+    toggle_no_thread_found_display() {
+      let no_thread_found = document.getElementsByClassName("no_thread_found");
+      no_thread_found.style.display = "block";
     }
   },
   computed: {
@@ -177,7 +210,7 @@ export default {
         return sorted_threads;
       }
     }
-  }
+  } 
 }
 </script>
 
@@ -205,6 +238,10 @@ export default {
       margin: 0 30px 30px;
   }
 
+  .main_content_for_threads {
+      margin-bottom: 15px;
+  }
+
   .thread_wrapper, .posts_wrapper {
       background-color: var(--light-purple);
       margin-top: 25px;
@@ -212,7 +249,7 @@ export default {
       padding: 30px 40px;
       color: white;
       display: grid;
-      grid-template-columns: 1fr 9fr;
+      grid-template-columns: 1fr 9fr; 
   }
 
   .thread_wrapper:last-child {
@@ -288,5 +325,20 @@ export default {
   }
   .selected_thread_name {
       font-size: 20px;
+  }
+  .no_thread_found {
+    display: none;
+  }
+</style>
+
+<style>
+  .slide_up_animation {
+      animation-name: slide;
+      animation-duration: 1s; 
+      animation-fill-mode: forwards; 
+  }
+  @keyframes slide {
+      0%   { transform: translate(0px, 100px); }
+      100% { transform: translate(0px 0px); }
   }
 </style>

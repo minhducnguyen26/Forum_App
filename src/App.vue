@@ -1,7 +1,9 @@
 <template>
   <div class="left_side">
       <div class="app_title">forum.</div>
-      <NavigationBar></NavigationBar>
+      <div class="navigation_menu">
+        <NavigationBar></NavigationBar>
+      </div>
     </div>
 
     <div class="middle">
@@ -57,6 +59,13 @@ export default {
     background-color: var(--dark-purple);
     color: white;
   }
+  .navigation_menu {
+    position: fixed;
+    background-color: var(--dark-purple);
+    top: 9.2%;
+    width: 15.4%;
+    height: 100vh;
+  }
   .app_title {
     font-size: 40px;
     margin: 15px 0 30px 40px;
@@ -68,6 +77,12 @@ export default {
     padding: 0px 30px 10px 30px;
   }
   .right_side {
+    background-color: var(--dark-purple);
+  }
+</style>
+
+<style>
+  body {
     background-color: var(--dark-purple);
   }
 </style>
