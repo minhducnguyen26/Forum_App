@@ -11,7 +11,7 @@
 
     <div class="main_content_for_threads" v-show="current_thread === ''">
 
-      <div class="thread_wrapper slide_up_animation" 
+      <div class="thread_wrapper" 
         v-for="thread in sorted_threads" :key="thread._id">
 
         <RankingandDelete @delete_button_clicked="delete_one_thread(thread._id)"></RankingandDelete>
@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <div class="no_thread_found slide_up_animation" 
+      <div class="no_thread_found" 
         v-if="show_no_thread_found_message">
         <MessageBox title="No thread found for this category"
           :button_list="['Create Thread']"></MessageBox>
@@ -46,7 +46,7 @@
           <p>All posts found for</p>
           <div class="selected_thread_name">{{ current_thread.name }}</div>
         </div>
-        <div class="posts_wrapper slide_up_animation" 
+        <div class="posts_wrapper" 
           v-for="post in all_posts_of_one_thread" :key="post._id">
           
           <RankingandDelete @delete_button_clicked="delete_one_post(post)"></RankingandDelete>
@@ -63,7 +63,7 @@
           </div>
         </div>
 
-        <div class="action_buttons slide_up_animation">
+        <div class="action_buttons">
           <MyButton @click="go_back_from_view_posts">Back</MyButton>
           <MyButton>Create Post</MyButton> 
         </div>
@@ -335,13 +335,4 @@ export default {
 </style>
 
 <style>
-  .slide_up_animation {
-      animation-name: slide;
-      animation-duration: 1s; 
-      animation-fill-mode: forwards; 
-  }
-  @keyframes slide {
-      0%   { transform: translate(0px, 100px); }
-      100% { transform: translate(0px 0px); }
-  }
 </style>
