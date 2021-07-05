@@ -2,7 +2,7 @@
   <div class="home">
     <div class="filter_bar" v-show="current_thread === '' ">
       <p>Filter threads:</p>
-      <select v-model="selected_category" @click="toggle_no_thread_found_display">
+      <select v-model="selected_category" @click="toggle_no_thread_found_message">
         <option v-for="category in categories" :key="category">
           {{ category }}
         </option>
@@ -33,7 +33,7 @@
       </div>
 
       <div class="no_thread_found slide_up_animation" 
-        v-if="!sorted_threads.length">
+        v-if="show_no_thread_found_message">
         <MessageBox title="No thread found for this category"
           :button_list="['Create Thread']"></MessageBox>
       </div>
@@ -119,6 +119,8 @@ export default {
       // if there is no post for that thread,
       // the user can create a new post
       no_post_found: false,
+
+      show_no_thread_found_message: false
     }
   },
   created() {
@@ -191,9 +193,13 @@ export default {
         // call create post function
       }
     },
-    toggle_no_thread_found_display() {
-      let no_thread_found = document.getElementsByClassName("no_thread_found");
-      no_thread_found.style.display = "block";
+    toggle_no_thread_found_message() {
+      this.show_no_thread_found_message = false;
+      if(!this.sorted_threads.length) {
+        this.show_no_thread_found_message = true;
+      } else {
+        this.show_no_thread_found_message = false;
+      }
     }
   },
   computed: {
@@ -325,9 +331,6 @@ export default {
   }
   .selected_thread_name {
       font-size: 20px;
-  }
-  .no_thread_found {
-    display: none;
   }
 </style>
 
