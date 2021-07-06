@@ -91,7 +91,8 @@
 
     <div class="main_content_for_creating_post" v-show="show_create_post_page">
       <CreatePost :current_thread="current_thread"
-        @go_home_from_create_post="close_create_post_page"></CreatePost>
+        @go_home_from_create_post="close_create_post_page"
+        @new_post_created="update_post_page"></CreatePost>
     </div>
   </div>
 </template>
@@ -101,6 +102,7 @@ import RankingandDelete from "../components/RankingandDelete.vue"
 import MessageBox   from "../components/MessageBox.vue"
 import MyButton from "../components/MyButton.vue"
 import CreatePost   from  "./CreatePost.vue"
+
 export default {
   components: {
     RankingandDelete,
@@ -229,6 +231,10 @@ export default {
     close_create_post_page() {
       this.get_all_posts_of_one_thread(this.current_thread);
       this.show_create_post_page = false;
+    },
+    update_post_page() {
+      this.get_all_posts_of_one_thread(this.current_thread);
+      this.show_no_post_found_message = false;
     }
   },
   computed: {
