@@ -78,6 +78,9 @@ export default {
                         alert(data.msg)
                     })
                 } else if(response.status == 200) {
+                    // emit a function to Home to refresh the post list
+                    this.$emit("new_post_created");
+                    
                     // clear all inputs in the new thread input fields
                     this.post_author = "";
                     this.post_body   = "";
