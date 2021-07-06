@@ -1,7 +1,9 @@
 <template>
     <div class="navigation_bar">
         <router-link class="single_link" :to="page.path"
-            v-for="page in page_options" :key="page.name">
+            v-for="page in page_options" :key="page.name"
+            :class="{active_page_link: page.name === current_page_name}"
+            @click="update_current_page(page.name)">
             <div class="link_icon">
                 <i :class="page.icon"></i>
             </div>
@@ -61,6 +63,13 @@ export default {
                     icon: "las la-cog"
                 }
             ],
+
+            current_page_name: "Home"
+        }
+    },
+    methods: {
+        update_current_page(page_name) {
+            this.current_page_name = page_name;
         }
     }
 }
@@ -95,6 +104,9 @@ export default {
         display: flex;
         align-items: center;
         font-size: 17px;
+    }
+    .active_page_link {
+        color: white;
     }
     @media only screen and (min-width: 1600px) {
     .navigation_bar {

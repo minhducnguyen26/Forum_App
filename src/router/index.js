@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../pages/Home.vue'
 import CreateThread from "../pages/CreateThread.vue"
+import ComingSoon from "../pages/ComingSoon.vue"
 
 const routes = [
   {
@@ -10,6 +11,34 @@ const routes = [
   {
     path: '/CreateThread',
     component: CreateThread
+  },
+  {
+    path: "/Questions",
+    component: ComingSoon
+  },
+  {
+    path: "/Tags",
+    component: ComingSoon
+  },
+  {
+    path: "/Unanswered",
+    component: ComingSoon
+  },
+  {
+    path: "/History",
+    component: ComingSoon
+  },
+  {
+    path: "/Profile",
+    component: ComingSoon
+  },
+  {
+    path: "/Star",
+    component: ComingSoon
+  },
+  {
+    path: "/Settings",
+    component: ComingSoon
   }
 ]
 

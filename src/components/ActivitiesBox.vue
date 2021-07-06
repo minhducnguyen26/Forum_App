@@ -206,6 +206,7 @@ export default {
         top: 23.5%;
         width: 24%;
         border-radius: 25px 0 0 25px;
+        padding-top: 35px;
     }
     .footer_section {
         display: block;

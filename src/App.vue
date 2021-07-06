@@ -7,7 +7,7 @@
     </div>
 
     <div class="middle">
-      <Home></Home>
+      <router-view/>
     </div>
 
     <div class="right_side">
@@ -20,9 +20,6 @@
 // Left Side
 import NavigationBar from "./components/NavigationBar.vue"
 
-// Middle
-import Home from "./pages/Home.vue"
-
 // Right Side
 import UserAccount   from "./components/UserAccount.vue"
 import ActivitiesBox from "./components/ActivitiesBox.vue"
@@ -30,7 +27,6 @@ import ActivitiesBox from "./components/ActivitiesBox.vue"
 export default {
   components: {
     NavigationBar,
-    Home,
     UserAccount,
     ActivitiesBox
   }
@@ -48,6 +44,9 @@ export default {
     --dark-purple   : #171a3b;
     --light-purple  : #1c2246;
     --lighter-purple: #656c9e;
+  }
+  body {
+    background-color: var(--dark-purple);
   }
   #app {
     display: grid;
@@ -77,12 +76,6 @@ export default {
     padding: 0px 30px 10px 30px;
   }
   .right_side {
-    background-color: var(--dark-purple);
-  }
-</style>
-
-<style>
-  body {
     background-color: var(--dark-purple);
   }
 </style>

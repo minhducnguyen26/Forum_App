@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <div class="filter_bar" v-show="current_thread === '' ">
+    <!-- Filter Bar at the top of the page -->
+    <div class="filter_bar" v-show="current_thread === '' && !show_create_post_page">
       <p>Filter threads:</p>
       <select v-model="selected_category" @click="toggle_no_thread_found_message">
         <option v-for="category in categories" :key="category">
@@ -9,73 +10,88 @@
       </select>
     </div>
 
-    <div class="main_content_for_threads" v-show="current_thread === ''">
+    <!-- THREADS -->
+    <div class="main_content_for_viewing_threads" v-show="current_thread === '' && !show_create_post_page">
 
-      <div class="thread_wrapper" 
-        v-for="thread in sorted_threads" :key="thread._id">
+      <transition name="switch_transition" mode="out-in">
+        <div class="if_thread_found" v-if="!show_no_thread_found_message">
+          <transition-group name="list_transition" appear>
+            <div class="thread_wrapper" 
+              v-for="thread in sorted_threads" :key="thread._id">
 
-        <RankingandDelete @delete_button_clicked="delete_one_thread(thread._id)"></RankingandDelete>
+              <RankingandDelete @delete_button_clicked="delete_one_thread(thread._id)"></RankingandDelete>
 
-        <div class="thread_content">
-          <div class="thread_name" @click="get_all_posts_of_one_thread(thread)">
-            {{ thread.name }}
-          </div>
-          <div class="thread_description"> {{ thread.description }}</div>
-                            
-          <div class="thread_content_tail">
-            <div class="thread_author">@{{ thread.author }}</div>
-            <div class="thread_category_wrapper">
-                <p>Category:</p>
-                <div class="thread_category">{{ thread.category }}</div>
+              <div class="thread_content">
+                <div class="thread_name" @click="get_all_posts_of_one_thread(thread)">
+                  {{ thread.name }}
+                </div>
+                <div class="thread_description"> {{ thread.description }}</div>
+                                  
+                <div class="thread_content_tail">
+                  <div class="thread_author">@{{ thread.author }}</div>
+                  <div class="thread_category_wrapper">
+                      <p>Category:</p>
+                      <div class="thread_category">{{ thread.category }}</div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          </transition-group>
         </div>
-      </div>
 
-      <div class="no_thread_found" 
-        v-if="show_no_thread_found_message">
-        <MessageBox title="No thread found for this category"
-          :button_list="['Create Thread']"></MessageBox>
-      </div>
-      
+        <div class="no_thread_found" v-else>
+          <MessageBox title="No thread found for this category"
+            :button_list="['Create Thread']"
+            @action_from_message_box="need_to_create_thread"></MessageBox>
+        </div>
+      </transition>
+
     </div>
 
-    <div class="main_content_for_posts" v-show="current_thread !== ''">
-      <div class="post_found" v-if="!no_post_found">
+    <!-- POSTS -->
+    <div class="main_content_for_viewing_posts" v-show="current_thread !== '' && !show_create_post_page">
+      <div class="post_found" v-if="!show_no_post_found_message">
         <div class="title">
           <p>All posts found for</p>
           <div class="selected_thread_name">{{ current_thread.name }}</div>
         </div>
-        <div class="posts_wrapper" 
-          v-for="post in all_posts_of_one_thread" :key="post._id">
-          
-          <RankingandDelete @delete_button_clicked="delete_one_post(post)"></RankingandDelete>
 
-          <div class="post_infos">
-            <div class="post_author">
-              <p>Author:</p>
-              <div class="author_name">@{{ post.author }}</div>
-            </div>
-            <div class="post_body">
-              <p>Body:</p>
-              <div class="body_content">{{ post.body }}</div>
+        <transition-group name="list_transition" appear>
+          <div class="posts_wrapper" 
+            v-for="post in all_posts_of_one_thread" :key="post._id">
+            
+            <RankingandDelete @delete_button_clicked="delete_one_post(post)"></RankingandDelete>
+
+            <div class="post_infos">
+              <div class="post_author">
+                <p>Author:</p>
+                <div class="author_name">@{{ post.author }}</div>
+              </div>
+              <div class="post_body">
+                <p>Body:</p>
+                <div class="body_content">{{ post.body }}</div>
+              </div>
             </div>
           </div>
-        </div>
+        </transition-group>
 
         <div class="action_buttons">
           <MyButton @click="go_back_from_view_posts">Back</MyButton>
-          <MyButton>Create Post</MyButton> 
+          <MyButton @click="action_for_specific_button('Create Post')">Create Post</MyButton> 
         </div>
       </div>
 
-      <div class="post_not_found">
-        <MessageBox v-if="no_post_found"
-          title="No post found for"
+      <div class="post_not_found" v-else>
+        <MessageBox title="No post found for"
           :thread_name="current_thread.name"
           :button_list="['Back', 'Create Post']"
           @action_from_message_box="action_for_specific_button"></MessageBox>
       </div>
+    </div>
+
+    <div class="main_content_for_creating_post" v-show="show_create_post_page">
+      <CreatePost :current_thread="current_thread"
+        @go_home_from_create_post="close_create_post_page"></CreatePost>
     </div>
   </div>
 </template>
@@ -84,19 +100,19 @@
 import RankingandDelete from "../components/RankingandDelete.vue"
 import MessageBox   from "../components/MessageBox.vue"
 import MyButton from "../components/MyButton.vue"
-
+import CreatePost   from  "./CreatePost.vue"
 export default {
   components: {
     RankingandDelete,
     MessageBox,
-    MyButton
+    MyButton,
+    CreatePost
   },
   data() {
     return{
       // main url
       url: "http://forum2021.codeschool.cloud",
 
-      // category options
       // category options
       categories: [
         "All", "Clothing", "Hunting", "Books", "Cards", "Coins",
@@ -115,12 +131,10 @@ export default {
       // default values for selected category items
       selected_category : "All",
 
-      // when the user click on a thread,
-      // if there is no post for that thread,
-      // the user can create a new post
-      no_post_found: false,
+      show_no_thread_found_message: false,
+      show_no_post_found_message: false,
 
-      show_no_thread_found_message: false
+      show_create_post_page: false
     }
   },
   created() {
@@ -146,6 +160,10 @@ export default {
           headers: {"Content-Type": "application/json"}
         }).then((response) => {
           this.get_all_threads_from_server();
+
+          if (this.sorted_threads.length <= 1) {
+            this.show_no_thread_found_message = true;
+          }
         })
       }
     }, 
@@ -160,7 +178,7 @@ export default {
           this.all_posts_of_one_thread = data.posts;
           
           if(!this.all_posts_of_one_thread.length) {
-            this.no_post_found = true;
+            this.show_no_post_found_message = true;
           }
         })
       })
@@ -180,17 +198,17 @@ export default {
       }
     },
 
-    //! Main Functions
+    //! Main methods
     go_back_from_view_posts() {
       this.current_thread = "";
-      this.no_post_found = false;
+      this.show_no_post_found_message = false;
     },
     action_for_specific_button(button) {
       if(button === "Back") {
         this.go_back_from_view_posts();
       }
       else if(button === "Create Post") {
-        // call create post function
+        this.show_create_post_page = true;
       }
     },
     toggle_no_thread_found_message() {
@@ -200,6 +218,17 @@ export default {
       } else {
         this.show_no_thread_found_message = false;
       }
+    },
+    need_to_create_thread(button) {
+      if(button == "Create Thread") {
+        this.$router.push({
+          path: "/CreateThread"
+        })
+      }
+    },
+    close_create_post_page() {
+      this.get_all_posts_of_one_thread(this.current_thread);
+      this.show_create_post_page = false;
     }
   },
   computed: {
@@ -244,7 +273,7 @@ export default {
       margin: 0 30px 30px;
   }
 
-  .main_content_for_threads {
+  .main_content_for_viewing_threads {
       margin-bottom: 15px;
   }
 
@@ -332,7 +361,100 @@ export default {
   .selected_thread_name {
       font-size: 20px;
   }
-</style>
 
-<style>
+  /* List Transition */ 
+  .list_transition-enter-from,
+  .list_transition-leave-to {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  .list_transition-enter-to,
+  .list_transition-leave-from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .list_transition-enter-active {
+    transition: all 0.4s ease;
+  }
+  .list_transition-leave-active {
+    transition: all 0.4s ease;
+    position: absolute;
+  }
+  .list_transition-move {
+    transition: all 0.3s ease;
+  }
+
+  /* Switch Transition */
+  .switch_transition-enter-from,
+  .switch_transition-leave-to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .switch_transition-enter-to,
+  .switch_transition-leave-from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .switch_transition-enter-active,
+  .switch_transition-leave-active {
+    transition: all 0.4s ease;
+  }
+
+  /* Slide up animation */
+  .action_buttons {
+    animation: slide_up 0.5s ease;
+  }
+  @keyframes slide_up {
+   0% {
+     opacity: 0;
+     transform: translateY(1000px);
+   } 
+   100% {
+     opacity: 1;
+     transform: translateY(0);
+   }
+  }
+  /* Slide down and wobble animation */
+  .post_not_found {
+    animation: wobble_down 0.5s ease;
+  }
+  @keyframes wobble_down {
+    0% {
+      opacity: 0;
+      transform: translateY(-60px);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    60% {
+      transform: translateX(-10px);
+    }
+    70% {
+      transform: translateX(-10px);
+    }
+    80% {
+      transform: translateX(-5px);
+    }
+    90% {
+      transform: translateX(-5px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  /* Fade-in animation */
+  .title {
+    animation: fade_in 0.5s ease;
+  }
+
+  @keyframes fade_in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 </style>
