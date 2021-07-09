@@ -305,6 +305,7 @@ export default {
   .thread_description {
       font-size: 14px;
       margin-top: 15px;
+      margin-bottom: 10px;
   }
 
   .thread_author {
