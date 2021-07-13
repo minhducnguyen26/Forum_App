@@ -54,6 +54,9 @@ export default {
   },
   data() {
     return {
+      // main url
+      url: "http://localhost/8080",
+
       // category options
       categories: [
         "All", "Clothing", "Hunting", "Books", "Cards", "Coins",
@@ -80,7 +83,7 @@ export default {
         category   : this.new_category
       };
 
-      fetch("thread", {
+      fetch(`${this.url}/thread`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(new_thread)
