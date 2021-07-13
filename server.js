@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === "production") {
 
 //? Cors
 const cors = require("cors");
-app.use(cors( {origin: 'http://forum2021.codeschool.cloud'} ));
+app.use(cors());
 
 //? Thread model
 const Thread = require("./model");
