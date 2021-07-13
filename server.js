@@ -14,7 +14,6 @@ if (process.env.NODE_ENV === "production") {
     app.get(/.*/, (req, res) => res.sendFile("public/index.html"));
 }
 
-
 //? Cors
 const cors = require("cors");
 app.use(cors());
