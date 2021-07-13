@@ -1,20 +1,26 @@
 {
-  "name": "forum",
-  "version": "0.1.0",
-  "private": true,
+  "name": "code_school_forum_app",
+  "version": "1.0.0",
+  "description": "Forum App Back-end",
+  "main": "index.js",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minhducnguyen26/Code_School_Forum_App.git"
+  },
+  "author": "Minh Nguyen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minhducnguyen26/Code_School_Forum_App/issues"
+  },
+  "homepage": "https://github.com/minhducnguyen26/Code_School_Forum_App#readme",
   "dependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.0"
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.0",
+    "nodemon": "^2.0.9"
   }
 }
