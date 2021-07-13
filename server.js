@@ -5,15 +5,6 @@ const express = require("express");
 const app = express();
 app.use(express.json({}));
 
-//! Handle production
-if (process.env.NODE_ENV === "production") {
-    //* Static folder
-    app.use(express.static("public"));
-
-    //* Handle SPA
-    app.get(/.*/, (req, res) => res.sendFile("public/index.html"));
-}
-
 //? Cors
 const cors = require("cors");
 app.use(cors());
@@ -309,4 +300,15 @@ app.delete("/post/:thread_id/:post_id", function(req, res) {
             res.status(200).json(target_post)
         })
 })
+
+
+//! Handle production
+if (process.env.NODE_ENV === "production") {
+    //* Static folder
+    app.use(express.static("public"));
+
+    //* Handle SPA
+    app.get(/.*/, (req, res) => res.sendFile("public/index.html"));
+}
+
 module.exports = app;
