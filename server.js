@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === "production") {
 
 //? Cors
 const cors = require("cors");
-app.use(cors());
+app.use(cors( {origin: '*'} ));
 
 //? Thread model
 const Thread = require("./model");
@@ -46,7 +46,6 @@ app.use((req, res, next) => {
 //* GET - Get all threads
 app.get("/thread", function(req, res) {
     res.setHeader("Content-Type", "application/json");
-    res.setHeader('Access-Control-Allow-Origin', '*');
 
     console.log("Getting all threads from the database.");
 
