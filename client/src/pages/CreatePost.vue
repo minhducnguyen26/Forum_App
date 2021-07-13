@@ -46,7 +46,7 @@ export default {
     data() {
         return {
             // main url
-            url: "http://localhost/8080",
+            url: "http://localhost:8080",
 
             // default new post inputs
             post_author : "",
