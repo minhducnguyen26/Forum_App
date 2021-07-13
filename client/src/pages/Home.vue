@@ -113,7 +113,7 @@ export default {
   data() {
     return{
       // main url
-      url: "https://code-school-forum.herokuapp.com",
+      url: "http://localhost/8080",
 
       // category options
       categories: [

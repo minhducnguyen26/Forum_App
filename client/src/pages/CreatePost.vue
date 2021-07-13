@@ -1,33 +1,35 @@
 <template>
-    <div class="form">
-        <div class="create_post_form">
-            <div class="main_title">
-                <div class="title">Create a Post for</div>
-                <div class="thread_name">{{ current_thread.name }}</div>
-            </div>
-
-            <div class="input_fields" @click="ready_to_create_new_post">
-                <div class="single_field">
-                    <label for="Author">Author:</label>
-                    <input type="text" v-model="post_author">
+    <div class="create_post_page">
+        <div class="form">
+            <div class="create_post_form">
+                <div class="main_title">
+                    <div class="title">Create a Post for</div>
+                    <div class="thread_name">{{ current_thread.name }}</div>
                 </div>
-                <div class="single_field">
-                    <label for="Description">Description:</label>
-                    <textarea cols="30" rows="2" v-model="post_body"></textarea>
-                </div>
-            </div>
 
-            <div class="action_buttons">
-                <MyButton @click="back_button_clicked_from_create_post_page">Back</MyButton>
-                <MyButton @click="create_new_post">Submit</MyButton>
+                <div class="input_fields" @click="ready_to_create_new_post">
+                    <div class="single_field">
+                        <label for="Author">Author:</label>
+                        <input type="text" v-model="post_author">
+                    </div>
+                    <div class="single_field">
+                        <label for="Description">Description:</label>
+                        <textarea cols="30" rows="2" v-model="post_body"></textarea>
+                    </div>
+                </div>
+
+                <div class="action_buttons">
+                    <MyButton @click="back_button_clicked_from_create_post_page">Back</MyButton>
+                    <MyButton @click="create_new_post">Submit</MyButton>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="message" v-show="display_message">
-        <p>Your post is successfully created.</p>
-        <div class="close_message_button" @click="close_message">
-        <i class="las la-times"></i>
+        <div class="message" v-show="display_message">
+            <p>Your post is successfully created.</p>
+            <div class="close_message_button" @click="close_message">
+            <i class="las la-times"></i>
+            </div>
         </div>
     </div>
 </template>
@@ -44,7 +46,7 @@ export default {
     data() {
         return {
             // main url
-            url: "https://code-school-forum.herokuapp.com",
+            url: "http://localhost/8080",
 
             // default new post inputs
             post_author : "",

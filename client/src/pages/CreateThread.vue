@@ -1,45 +1,47 @@
 <template>
-  <div class="form">
-    <div class="create_thread_form">
-      <div class="title">Create a thread</div>
+  <div class="create_thread_page">
+    <div class="form">
+      <div class="create_thread_form">
+        <div class="title">Create a thread</div>
 
-      <div class="input_fields" @click="ready_to_create_new_thread">
-        <div class="single_field">
-          <label for="Name">Name:</label>
-          <input type="text" v-model="new_name">
+        <div class="input_fields" @click="ready_to_create_new_thread">
+          <div class="single_field">
+            <label for="Name">Name:</label>
+            <input type="text" v-model="new_name">
+          </div>
+
+          <div class="single_field">
+            <label for="Author">Author:</label>
+            <input type="text" v-model="new_author">
+          </div>
+                    
+          <div class="single_field">
+            <label for="Description">Description:</label>
+            <textarea cols="30" rows="2" v-model="new_description"></textarea>
+          </div>
+                    
+          <div class="single_field">
+            <label for="Category">Category:</label>
+              <select v-model="new_category">
+                <option v-for="category in categories" :key="category">
+                  {{ category }}
+                </option>
+              </select>
+          </div>
         </div>
 
-        <div class="single_field">
-          <label for="Author">Author:</label>
-          <input type="text" v-model="new_author">
+        <div class="action_buttons">
+          <MyButton @click="go_home_from_create_thread">Back</MyButton>
+          <MyButton @click="create_new_thread">Submit</MyButton>
         </div>
-                  
-        <div class="single_field">
-          <label for="Description">Description:</label>
-          <textarea cols="30" rows="2" v-model="new_description"></textarea>
-        </div>
-                  
-        <div class="single_field">
-          <label for="Category">Category:</label>
-            <select v-model="new_category">
-              <option v-for="category in categories" :key="category">
-                {{ category }}
-              </option>
-            </select>
-        </div>
-      </div>
-
-      <div class="action_buttons">
-        <MyButton @click="go_home_from_create_thread">Back</MyButton>
-        <MyButton @click="create_new_thread">Submit</MyButton>
       </div>
     </div>
-  </div>
 
-  <div class="message" v-show="display_message">
-    <p>Your thread is successfully created.</p>
-    <div class="close_message_button" @click="close_message">
-      <i class="las la-times"></i>
+    <div class="message" v-show="display_message">
+      <p>Your thread is successfully created.</p>
+      <div class="close_message_button" @click="close_message">
+        <i class="las la-times"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -53,7 +55,7 @@ export default {
   data() {
     return {
       // main url
-      url: "https://code-school-forum.herokuapp.com",
+      url: "http://localhost/8080",
 
       // category options
       categories: [
