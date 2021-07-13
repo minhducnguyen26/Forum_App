@@ -77,7 +77,7 @@ export default {
                     response.json().then((data) => {
                         alert(data.msg)
                     })
-                } else {
+                } else if(response.status == 200 || response.status == 201) {
                     // emit a function to Home to refresh the post list
                     this.$emit("new_post_created");
                     
