@@ -113,7 +113,7 @@ export default {
   data() {
     return{
       // main url
-      url: "https://forum2021.codeschool.cloud",
+      url: "http://forum2021.codeschool.cloud",
 
       // category options
       categories: [
