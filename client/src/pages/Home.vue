@@ -112,9 +112,6 @@ export default {
   },
   data() {
     return{
-      // main url
-      url: "http://localhost/8080",
-
       // category options
       categories: [
         "All", "Clothing", "Hunting", "Books", "Cards", "Coins",
@@ -148,7 +145,7 @@ export default {
       //? Deal with Threads
     //* (GET ALL)
     get_all_threads_from_server() {
-      fetch(`${this.url}/thread`).then((response) => {
+      fetch("thread").then((response) => {
         response.json().then((data) => {
           this.threads = data;
         })
@@ -157,7 +154,7 @@ export default {
     //* (DELETE)
     delete_one_thread(thread_id) {
       if(!this.current_thread) {
-        fetch(`${this.url}/thread/` + thread_id, {
+        fetch("thread/" + thread_id, {
           method: "DELETE",
           headers: {"Content-Type": "application/json"}
         }).then((response) => {
@@ -175,7 +172,7 @@ export default {
     get_all_posts_of_one_thread(thread){
       this.current_thread = thread;
 
-      fetch(`${this.url}/thread/${thread._id}`).then((response) => {
+      fetch(`thread/${thread._id}`).then((response) => {
         response.json().then((data) => {
           this.all_posts_of_one_thread = data.posts;
           
@@ -191,7 +188,7 @@ export default {
       let thread_id = post.thread_id;
 
       if(this.current_thread) {
-        fetch(`${this.url}/post/${thread_id}/${post._id}`, {
+        fetch(`post/${thread_id}/${post._id}`, {
           method: "DELETE",
           headers: {"Content-Type": "application/json"}
         }).then((response) => {

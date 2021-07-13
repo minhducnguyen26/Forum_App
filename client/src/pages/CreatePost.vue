@@ -45,9 +45,6 @@ export default {
     },
     data() {
         return {
-            // main url
-            url: "http://localhost/8080",
-
             // default new post inputs
             post_author : "",
             post_body   : "",
@@ -70,7 +67,7 @@ export default {
                 body     : this.post_body
             };
 
-            fetch(`${this.url}/post`, {
+            fetch("post", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(new_post)
