@@ -44,7 +44,7 @@ export default {
     data() {
         return {
             // main url
-            url: "https://code-school-meme-forum-app.herokuapp.com",
+            url: "https://code-school-forum.herokuapp.com",
 
             // default new post inputs
             post_author : "",

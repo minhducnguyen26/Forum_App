@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       // main url
-      url: "https://code-school-meme-forum-app.herokuapp.com",
+      url: "https://code-school-forum.herokuapp.com",
 
       // category options
       categories: [
