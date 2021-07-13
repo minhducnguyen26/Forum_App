@@ -1,3 +1,3 @@
-# Code_School_Forum_Wep_App
+# Forum_App
 
 https://code-school-forum-web-app.herokuapp.com
